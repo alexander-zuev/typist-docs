@@ -3,7 +3,8 @@ title: Typist MCP
 description: Search, read, and download your Typist transcripts from an MCP client.
 ---
 
-Typist MCP connects an MCP-compatible AI client directly to your transcript library.
+Let AI assistants search, read, and analyze your Typist transcripts without manually copying and
+pasting them.
 
 **Server URL**
 
@@ -23,8 +24,3 @@ key.
 | [`download_transcript`](./tools/download-transcript/) | Create a one-hour export URL                  |
 
 All tools are read-only. They cannot create, edit, or delete transcripts.
-
-## Transcript access
-
-Only completed transcripts are returned. Locked transcripts remain discoverable, but reading or
-downloading one returns only the preview available to your account.

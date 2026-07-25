@@ -34,7 +34,6 @@ export default defineConfig({
           items: [
             { label: 'Overview', slug: 'mcp' },
             { label: 'Connect a client', slug: 'mcp/connect' },
-            { label: 'Authentication', slug: 'mcp/authentication' },
           ],
         },
         {
