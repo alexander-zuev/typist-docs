@@ -1,0 +1,118 @@
+---
+import config from 'virtual:starlight/user-config'
+
+import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro'
+import Search from '@astrojs/starlight/components/Search.astro'
+import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro'
+
+import SiteTitle from './site-title.astro'
+import ThemeSelect from './theme-select.astro'
+
+const shouldRenderSearch =
+  config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro'
+const isChangelog = Astro.url.pathname.startsWith('/changelog')
+---
+
+<div class="header">
+  <div class="brand-column sl-flex">
+    <div class="title-wrapper sl-flex">
+      <SiteTitle />
+    </div>
+  </div>
+  <nav class="header-nav sl-hidden md:sl-flex" aria-label="Platform">
+    <a href="/changelog/" aria-current={isChangelog ? 'page' : undefined}>Changelog</a>
+  </nav>
+
+  <div class="sl-flex md:sl-hidden print:hidden">
+    {shouldRenderSearch && <Search />}
+  </div>
+
+  <div class="sl-hidden md:sl-flex print:hidden right-group">
+    {shouldRenderSearch && <div class="header-search"><Search /></div>}
+    <div class="sl-flex social-icons">
+      <SocialIcons />
+    </div>
+    <ThemeSelect />
+    <LanguageSelect />
+  </div>
+</div>
+
+<style>
+  @layer starlight.core {
+    .header,
+    .brand-column,
+    .right-group,
+    .header-nav,
+    .social-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header {
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .brand-column {
+      min-width: 0;
+    }
+
+    .title-wrapper {
+      min-width: 0;
+      margin: -0.25rem;
+      padding: 0.25rem;
+      overflow: clip;
+    }
+
+    .header-nav a {
+      color: var(--sl-color-gray-2);
+      font-size: var(--sl-text-sm);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .header-nav a:hover,
+    .header-nav a[aria-current='page'] {
+      color: var(--sl-color-white);
+    }
+
+    .right-group {
+      gap: 1rem;
+    }
+
+    .header-search {
+      width: min(16rem, 24vw);
+    }
+
+    .social-icons {
+      min-height: 2rem;
+      padding-inline-start: 1rem;
+      border-inline-start: 1px solid var(--sl-color-gray-5);
+    }
+
+    @media (min-width: 50rem) {
+      .header {
+        display: grid;
+        grid-template-columns:
+          calc(var(--sl-sidebar-width) - var(--sl-nav-pad-x))
+          auto 1fr auto;
+      }
+
+      .brand-column {
+        align-self: stretch;
+        height: var(--sl-nav-height);
+        margin-block: calc(-1 * var(--sl-nav-pad-y));
+        border-inline-end: 1px solid var(--sl-color-hairline-shade);
+      }
+
+      .header-nav {
+        padding-inline: var(--sl-nav-pad-x);
+      }
+
+      .right-group {
+        grid-column: 4;
+        justify-self: end;
+      }
+    }
+  }
+</style>

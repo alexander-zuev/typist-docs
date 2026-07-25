@@ -1,32 +1,22 @@
 import starlight from '@astrojs/starlight'
 import { defineConfig } from 'astro/config'
-import starlightThemeBlack from 'starlight-theme-black'
 
 export default defineConfig({
   site: 'https://docs.iamtypist.dev',
   integrations: [
     starlight({
-      title: 'Typist Docs',
+      title: 'Typist Platform',
       description: 'Connect AI agents and developer tools to Typist.',
       favicon: '/favicon.svg',
       logo: {
         src: './src/assets/logo.svg',
         alt: 'Typist',
       },
-      plugins: [
-        starlightThemeBlack({
-          navLinks: [
-            { label: 'Docs', link: '/mcp/' },
-            {
-              label: 'Typist',
-              link: 'https://iamtypist.dev',
-              attrs: { target: '_blank', rel: 'noopener' },
-            },
-          ],
-        }),
-      ],
       components: {
+        Header: './src/components/header.astro',
+        SiteTitle: './src/components/site-title.astro',
         ThemeProvider: './src/components/theme-provider.astro',
+        ThemeSelect: './src/components/theme-select.astro',
       },
       editLink: {
         baseUrl: 'https://github.com/alexander-zuev/typist-docs/edit/main/',

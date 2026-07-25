@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content'
+
+const entries = (await getCollection('changelog')).sort(
+  (left, right) => right.data.date.getTime() - left.data.date.getTime(),
+)
+const renderedEntries = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+)
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  day: 'numeric',
+  month: 'long',
+  timeZone: 'UTC',
+  year: 'numeric',
+})
+---
+
+<div class="changelog-list">
+  {
+    renderedEntries.map(({ entry, Content }) => (
+      <article class="changelog-entry" id={entry.id}>
+        <div class="changelog-entry__date">
+          <time datetime={entry.data.date.toISOString()}>
+            {dateFormatter.format(entry.data.date)}
+          </time>
+        </div>
+        <div class="changelog-entry__body">
+          <span class="changelog-entry__product">{entry.data.product}</span>
+          <h2>
+            <a href={`#${entry.id}`}>{entry.data.title}</a>
+          </h2>
+          <p class="changelog-entry__description">{entry.data.description}</p>
+          <div class="changelog-entry__content">
+            <Content />
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>
