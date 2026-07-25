@@ -1,0 +1,12 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "sortImports": true,
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.astro/**",
+    "**/.wrangler/**",
+    "pnpm-lock.yaml"
+  ]
+}

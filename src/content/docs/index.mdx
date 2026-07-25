@@ -1,0 +1,37 @@
+---
+title: Typist developer documentation
+description: Connect AI agents and developer tools to Typist.
+template: splash
+hero:
+  tagline: Give AI agents secure, read-only access to your transcript library.
+  actions:
+    - text: Connect with MCP
+      link: /mcp/connect/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/alexander-zuev/typist-mcp
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## Typist MCP
+
+Typist MCP removes the export, download, and upload loop between your transcript library and an AI
+agent.
+
+<CardGrid>
+  <Card title="Search transcripts" icon="magnifier">
+    Find completed transcripts by title, topic, category, or date.
+  </Card>
+  <Card title="Read transcript content" icon="open-book">
+    Read TXT, SRT, or VTT content in bounded pages that fit an agent context window.
+  </Card>
+  <Card title="Download exports" icon="download">
+    Create one-hour download links for TXT, SRT, and VTT exports.
+  </Card>
+  <Card title="Read-only by design" icon="lock">
+    Agents cannot create, edit, or delete transcripts.
+  </Card>
+</CardGrid>

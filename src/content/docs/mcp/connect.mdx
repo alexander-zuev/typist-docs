@@ -1,0 +1,83 @@
+---
+title: Connect a client
+description: Add Typist MCP to Claude, ChatGPT, Claude Code, Codex, Cursor, VS Code, or another MCP client.
+---
+
+import { TabItem, Tabs } from '@astrojs/starlight/components'
+
+Typist MCP supports clients that can connect to a remote Streamable HTTP server and complete OAuth
+in a browser.
+
+<Tabs syncKey="mcp-client">
+	<TabItem label="Claude Code">
+
+```bash
+claude mcp add --transport http typist https://mcp.iamtypist.dev/mcp
+```
+
+Run `/mcp`, select `typist`, and approve access in the browser.
+
+    </TabItem>
+    <TabItem label="Codex">
+
+```bash
+codex mcp add typist --url https://mcp.iamtypist.dev/mcp
+codex mcp login typist
+```
+
+Approve access in the browser.
+
+    </TabItem>
+    <TabItem label="Cursor">
+
+Add this to `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "typist": {
+      "url": "https://mcp.iamtypist.dev/mcp"
+    }
+  }
+}
+```
+
+    </TabItem>
+    <TabItem label="VS Code">
+
+```bash
+code --add-mcp '{"name":"typist","url":"https://mcp.iamtypist.dev/mcp"}'
+```
+
+Start Typist from the MCP view and approve access in the browser.
+
+    </TabItem>
+    <TabItem label="Other clients">
+
+Use the server URL:
+
+```text
+https://mcp.iamtypist.dev/mcp
+```
+
+Choose Streamable HTTP when the client asks for a transport. The client must support OAuth for
+remote MCP servers.
+
+    </TabItem>
+
+</Tabs>
+
+## Verify the connection
+
+Ask the client:
+
+```text
+Search my recent Typist transcripts
+```
+
+A working connection calls `search_transcripts` and returns your completed transcripts.
+
+:::note
+Claude and ChatGPT provide custom-connector forms in their settings. Paste the same server URL and
+approve access when prompted.
+:::
