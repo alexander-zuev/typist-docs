@@ -21,7 +21,21 @@ filters to list the most recent transcripts.
 
 ## Output
 
-Each item includes its ID, display name, duration, upload time, category, topics, and `locked`
-status. When `nextCursor` is present, pass it unchanged as `cursor` to fetch the next page.
+| Field        | Type   | Description                                     |
+| ------------ | ------ | ----------------------------------------------- |
+| `items`      | array  | Matching completed transcripts                  |
+| `nextCursor` | string | Cursor for the next page, when one is available |
 
-Locked transcripts remain searchable. Use `read_transcript` to read the entitled preview.
+Each item contains:
+
+| Field         | Type              | Description                         |
+| ------------- | ----------------- | ----------------------------------- |
+| `id`          | UUID              | Transcript ID                       |
+| `displayName` | string            | Transcript name                     |
+| `duration`    | number            | Duration in seconds                 |
+| `uploadedAt`  | ISO 8601 datetime | Upload time                         |
+| `category`    | category or null  | Typist content category             |
+| `topics`      | string[] or null  | Extracted topics                    |
+| `locked`      | boolean           | Whether transcript access is locked |
+
+When `nextCursor` is present, pass it unchanged as `cursor` to fetch the next page.

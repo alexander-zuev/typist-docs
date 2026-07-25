@@ -4,14 +4,37 @@ description: Add Typist MCP to Claude, ChatGPT, Claude Code, Codex, Cursor, VS C
 ---
 
 import { TabItem, Tabs } from '@astrojs/starlight/components'
+import SetupPrompt from '../../../components/setup-prompt.astro'
 
 Typist MCP supports clients that can connect to a remote Streamable HTTP server and complete OAuth
 in a browser.
 
 You sign in and approve read-only access in your browser. No API key is required.
 
+<SetupPrompt />
+
 <Tabs syncKey="mcp-client">
-	<TabItem label="Claude Code">
+    <TabItem label="Claude">
+
+1. Open [Customize → Connectors](https://claude.ai/customize/connectors).
+2. Select **Add custom connector** and paste `https://mcp.iamtypist.dev/mcp`.
+3. Connect Typist and approve access in the browser.
+
+See [Claude's custom connector guide](https://support.claude.com/en/articles/11175166).
+
+    </TabItem>
+    <TabItem label="ChatGPT">
+
+1. Enable Developer mode in **Settings → Apps → Advanced settings**.
+2. Select **Create**, paste `https://mcp.iamtypist.dev/mcp`, and scan the tools.
+3. Approve access when ChatGPT connects to Typist.
+
+ChatGPT Pro supports read-only MCP apps. Business, Enterprise, and Edu workspaces may require an
+admin to enable Developer mode. See
+[ChatGPT's MCP app guide](https://help.openai.com/en/articles/12584461).
+
+    </TabItem>
+    <TabItem label="Claude Code">
 
 ```bash
 claude mcp add --transport http typist https://mcp.iamtypist.dev/mcp
@@ -80,6 +103,6 @@ Search my recent Typist transcripts
 A working connection calls `search_transcripts` and returns your completed transcripts.
 
 :::note
-Claude and ChatGPT provide custom-connector forms in their settings. Paste the same server URL and
-approve access when prompted.
+The copied setup prompt is for coding agents that can configure MCP themselves. Claude and ChatGPT
+use the manual browser steps above.
 :::

@@ -8,22 +8,36 @@ description: Resolve common Typist MCP connection and tool errors.
 Open your MCP client's connection settings and start authorization for `typist` again. Terminal
 clients may provide a separate login command after the server is added.
 
-## The client reports an invalid or expired token
+## `Missing or invalid access token`
 
 Disconnect Typist from the client, add it again, and complete the browser flow. Tokens from a
 different Typist account cannot be reused.
 
-## A transcript cannot be found
+## The connection request expired or was already used
 
-`read_transcript` deliberately returns the same not-found result for unknown IDs, transcripts owned
-by another account, incomplete transcripts, and transcripts without a stored result. Run
-`search_transcripts` and use the returned ID.
+Restart authorization from the MCP client. Connection request pages cannot be reused.
 
-## A tool is rate limited
+## `This request belongs to another account`
 
-Wait for the retry period returned by the tool. Current per-user limits are 60 searches per minute
-and 30 read or download calls per minute.
+Sign in with the Typist account that started the connection, or restart authorization and choose
+the intended account.
 
-## A transcript is shorter than expected
+## `Transcript not found`
 
-Check `locked`. Locked transcripts expose only the preview available to the connected account.
+Run `search_transcripts` and find the transcript. If it is absent, it is not available to this
+connection. If it appears but still cannot be read, retry once, then contact support.
+
+## `Rate limit exceeded`
+
+Wait for the number of seconds returned by the tool before trying again.
+
+## The client rejects tool input
+
+Check the tool's required fields, formats, ranges, and transcript ID against the corresponding tool
+page.
+
+## `Something went wrong`
+
+Retry the tool once. If the error continues, email
+[support@iamtypist.dev](mailto:support@iamtypist.dev) with the client, tool name, and approximate
+time of the failure.

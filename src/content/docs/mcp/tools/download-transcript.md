@@ -14,7 +14,10 @@ Create a temporary export URL for a transcript.
 
 ## Output
 
-The tool returns the selected format, an expiration time, and a presigned download URL valid for
-one hour.
+| Field         | Type                | Description                       |
+| ------------- | ------------------- | --------------------------------- |
+| `downloadUrl` | URL                 | Temporary transcript download URL |
+| `format`      | `txt`, `srt`, `vtt` | Export format                     |
+| `expiresAt`   | ISO 8601 datetime   | URL expiration time               |
 
-Locked transcripts export only the preview available to your account.
+The download URL is valid for one hour.

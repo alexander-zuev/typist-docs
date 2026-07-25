@@ -1,0 +1,98 @@
+---
+const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow the instructions'
+---
+
+<div class="setup-prompt">
+  <button type="button" data-setup-prompt={setupPrompt}>
+    <svg class="copy-icon" aria-hidden="true" viewBox="0 0 24 24">
+      <path
+        d="M8 8V5.75A1.75 1.75 0 0 1 9.75 4h8.5A1.75 1.75 0 0 1 20 5.75v8.5A1.75 1.75 0 0 1 18.25 16H16M5.75 8h8.5A1.75 1.75 0 0 1 16 9.75v8.5A1.75 1.75 0 0 1 14.25 20h-8.5A1.75 1.75 0 0 1 4 18.25v-8.5A1.75 1.75 0 0 1 5.75 8Z"
+      ></path>
+    </svg>
+    <svg class="success-icon" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="m5 12.5 4.25 4.25L19 7"></path>
+    </svg>
+    <span data-copy-label>Copy this prompt</span>
+  </button>
+</div>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-setup-prompt]')) {
+    button.addEventListener('click', async () => {
+      const prompt = button.dataset.setupPrompt
+      const label = button.querySelector<HTMLElement>('[data-copy-label]')
+      if (!prompt || !label) return
+
+      try {
+        await navigator.clipboard.writeText(prompt)
+        button.dataset.copyState = 'success'
+        label.textContent = 'Copied'
+      } catch {
+        label.textContent = 'Copy failed'
+      }
+      window.setTimeout(() => {
+        delete button.dataset.copyState
+        label.textContent = 'Copy this prompt'
+      }, 2000)
+    })
+  }
+</script>
+
+<style>
+  .setup-prompt {
+    display: flex;
+    justify-content: flex-start;
+    margin-block: 1.25rem 1.5rem;
+  }
+
+  button {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    width: 12rem;
+    min-height: 2.5rem;
+    padding-inline: 0.875rem;
+    border: 1px solid #0d0d0d;
+    border-radius: 9999px;
+    color: #ffffff;
+    background: #0d0d0d;
+    font: inherit;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #282828;
+  }
+
+  button svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.75;
+  }
+
+  .success-icon {
+    display: none;
+    color: #3fb950;
+  }
+
+  button[data-copy-state='success'] .copy-icon {
+    display: none;
+  }
+
+  button[data-copy-state='success'] .success-icon {
+    display: block;
+  }
+
+  :global(starlight-tabs[data-sync-key='mcp-client'] [role='tab']) {
+    padding-inline: 0.75rem;
+    white-space: nowrap;
+  }
+</style>

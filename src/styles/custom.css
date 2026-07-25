@@ -97,21 +97,9 @@ header.header {
 }
 
 .site-label {
-  display: flex;
-  align-items: baseline;
-  gap: 0.3125rem;
-}
-
-.site-brand {
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -0.025em;
-}
-
-.site-product {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
 }
 
 .sidebar-pane {
