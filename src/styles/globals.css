@@ -29,7 +29,9 @@
   --nb-card-foreground: var(--nb-foreground);
 
   --nb-muted: oklch(0.967 0 0);
-  --nb-muted-foreground: oklch(0.556 0 0);
+  /* Dark enough to clear 4.5:1 on --nb-muted, not just on --nb-background:
+     table headers, the code language badge, and the search kbd all sit on it. */
+  --nb-muted-foreground: oklch(0.53 0 0);
 
   --nb-accent: oklch(0.967 0 0);
   --nb-accent-foreground: var(--nb-foreground);
@@ -42,8 +44,12 @@
   /* Borders / focus */
   --nb-border: oklch(0.935 0 0);
   --nb-border-strong: oklch(0.87 0 0);
+  /* Links match body color, so the underline is their only distinguishing mark:
+     WCAG 1.4.11 applies and it must clear 3:1, unlike the decorative borders. */
+  --nb-link-underline: oklch(0.62 0 0);
   --nb-selected: oklch(0.89 0 0);
-  --nb-ring: oklch(0.145 0 0 / 0.35);
+  /* Alpha kept high enough to clear 3:1 against --nb-background (WCAG 1.4.11). */
+  --nb-ring: oklch(0.145 0 0 / 0.7);
 
   /* Status colors — paired (saturated for text/border + muted for bg) */
   --nb-info: oklch(0.45 0.18 255);
@@ -65,6 +71,7 @@
   /* Layout */
   --nb-sidebar-width: 15rem;
   --nb-toc-width: 18rem;
+  /* Measured ~76ch at the 1rem body size, matching developers.cloudflare.com (78ch). */
   --nb-content-max: 48rem;
 
   /* Typography — self-hosted via @fontsource-variable in base-layout.astro */
@@ -88,6 +95,9 @@
   --nb-shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04);
   --nb-shadow: 0 1px 3px oklch(0 0 0 / 0.06), 0 1px 2px oklch(0 0 0 / 0.04);
   --nb-shadow-lg: 0 4px 12px oklch(0 0 0 / 0.08), 0 2px 4px oklch(0 0 0 / 0.04);
+  /* Modal elevation. Defined because search-dialog uses shadow-xl, which would
+     otherwise fall back to Tailwind's stock value and break this scale. */
+  --nb-shadow-xl: 0 12px 32px oklch(0 0 0 / 0.12), 0 4px 8px oklch(0 0 0 / 0.05);
 }
 
 /* Wider content area on large displays (e.g. MacBook Pro 16″) */
@@ -143,18 +153,15 @@
   --font-mono: var(--nb-font-mono);
 
   --shadow-sm: var(--nb-shadow-sm);
-  --shadow-default: var(--nb-shadow);
+  --shadow: var(--nb-shadow);
   --shadow-lg: var(--nb-shadow-lg);
+  --shadow-xl: var(--nb-shadow-xl);
 }
 
 /* ---- Minimal overrides the plugin doesn't cover ---- */
 html {
   font-family: var(--nb-font-sans);
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-}
-
-body {
-  opacity: 1;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -194,6 +201,13 @@ body {
 }
 
 /* ---- Scrollbar ---- */
+/* Standard property first (Firefox); the WebKit pseudo-elements below repeat it
+   for Chromium and Safari, which still don't implement scrollbar-color. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--nb-foreground) 20%, transparent) transparent;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -211,13 +225,12 @@ body {
 
 /* ---- Shiki code-block styling + copy button ---- */
 
+/* Chrome (border, radius, background, margin) lives on the .nb-code-figure
+   wrapper that nimbus always emits — see the figure rules below. This element
+   owns only the scroll box and text metrics. */
 pre.astro-code {
   position: relative;
-  margin: 1rem 0;
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--nb-border);
-  background-color: var(--nb-card);
   overflow-x: auto;
   font-family: var(--nb-font-mono);
   font-size: 0.875rem;
@@ -281,19 +294,14 @@ pre.astro-code span {
    Chrome lives on the figure so the language badge + copy button can sit
    on a non-scrolling ancestor — iOS Safari slides absolutely-positioned
    children of overflow:auto containers. */
+/* Vertical rhythm is owned by prose.css (code blocks are visually denser than
+   the base rhythm); this rule owns the frame only. */
 .nb-code-figure {
   position: relative;
-  margin: 1rem 0;
   border: 1px solid var(--nb-border);
   border-radius: 0.5rem;
   background-color: var(--nb-card);
   overflow: hidden;
-}
-.nb-code-figure > pre.astro-code {
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  background-color: transparent;
 }
 .nb-code-title {
   display: flex;
@@ -342,7 +350,6 @@ pre.astro-code span {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   pointer-events: none;
-  opacity: 0.75;
   transition: opacity 0.15s ease;
   z-index: 1;
 }

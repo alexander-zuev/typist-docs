@@ -1,8 +1,9 @@
 import nimbus, { defineConfig as defineNimbusConfig } from '@cloudflare/nimbus-docs'
-import { tableScroll } from '@cloudflare/nimbus-docs/markdown'
 import tailwindcss from '@tailwindcss/vite'
 import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
+
+import { scrollableTable } from './src/lib/scrollable-table'
 
 const nimbusConfig = defineNimbusConfig({
   site: 'https://docs.iamtypist.dev',
@@ -10,7 +11,7 @@ const nimbusConfig = defineNimbusConfig({
   description: 'Connect AI agents and developer tools to Typist.',
   locale: 'en',
   homeLabel: 'Typist Platform',
-  github: 'https://github.com/alexander-zuev/typist-mcp',
+  github: 'https://github.com/alexander-zuev/typist-docs',
   editPattern: 'https://github.com/alexander-zuev/typist-docs/edit/main/{path}',
   socialImageAlt: 'Typist Platform documentation',
   sidebar: {
@@ -39,6 +40,14 @@ const nimbusConfig = defineNimbusConfig({
 
 export default defineConfig({
   output: 'static',
+  // nimbus keeps its own Shiki themes unless this is set. Its github-light
+  // default renders parameters at 3.49:1 on the code surface; the -default
+  // palettes are GitHub's contrast-corrected rebuild, all tokens above 4.5:1.
+  markdown: {
+    shikiConfig: {
+      themes: { light: 'github-light-default', dark: 'github-dark-default' },
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },
@@ -54,7 +63,7 @@ export default defineConfig({
         'nimbus/internal-link': 'error',
       },
       markdown: {
-        hastPlugins: [tableScroll()],
+        hastPlugins: [scrollableTable()],
       },
     }),
   ],

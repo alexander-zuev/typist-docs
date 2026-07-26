@@ -5,6 +5,7 @@
     "/",
     "/404",
     "/changelog",
+    "/kitchen-sink",
     "/mcp",
     "/mcp/connect",
     "/mcp/disconnect",

@@ -71,7 +71,14 @@ const uid =
 
 <div data-nb-pm class="w-full">
   <LayerCard>
-    <LayerCardHeader role="tablist" aria-label="Package manager">
+    {/* Scrolls rather than clips: at 200% text the four manager tabs exceed a
+        narrow viewport, and clipped tabs lose content (WCAG 1.4.4). Matches the
+        Tabs component, which already scrolls its trigger strip. */}
+    <LayerCardHeader
+      role="tablist"
+      aria-label="Package manager"
+      class="overflow-x-auto overscroll-x-contain"
+    >
       {tabs.map((tab, i) => (
         <button
           role="tab"

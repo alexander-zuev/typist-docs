@@ -1,0 +1,142 @@
+---
+title: Kitchen sink
+description: Every styled element on one page, used as the visual regression baseline.
+noindex: true
+searchable: false
+sidebar: false
+---
+
+Visual baseline. Every MDX component and prose element the site can render appears
+below so a screenshot diff catches styling regressions. Not linked from navigation.
+
+## Prose
+
+Body copy with **bold**, _italic_, `inline code`, a [link](/mcp), <mark>a highlight</mark>,
+and a keycap: <kbd>Cmd</kbd> + <kbd>K</kbd>.
+
+> A blockquote, for quoted material and callouts written in plain markdown.
+
+- Unordered item
+- Second item
+  - Nested item
+    - Third level
+- Third item
+
+1. Ordered item
+2. Second item
+3. Third item
+
+---
+
+<dl>
+  <dt>Term</dt>
+  <dd>Description paired with the term above.</dd>
+  <dt>Second term</dt>
+  <dd>Another description.</dd>
+</dl>
+
+<details>
+  <summary>Native disclosure</summary>
+
+Content revealed when the disclosure is open.
+
+</details>
+
+### Heading level 3
+
+#### Heading level 4
+
+## Table
+
+| Tool                  | Scope      | Returns             |
+| --------------------- | ---------- | ------------------- |
+| `search_transcripts`  | Library    | Ranked matches      |
+| `read_transcript`     | Transcript | Full text           |
+| `download_transcript` | Transcript | File in your format |
+
+## Code
+
+```ts title="example.ts"
+export function greet(name: string): string {
+  return `Hello, ${name}`
+}
+```
+
+```ts
+const highlighted = true // [!code highlight]
+const added = true // [!code ++]
+const removed = false // [!code --]
+const focused = 'value' // [!code focus]
+```
+
+```
+Plain text block with no language badge.
+```
+
+## Components
+
+<Aside type="note">A note aside.</Aside>
+
+<Aside type="tip">A tip aside.</Aside>
+
+<Aside type="caution">A caution aside.</Aside>
+
+<Aside type="danger">A danger aside.</Aside>
+
+<CardGrid>
+  <Card title="First card">Card body copy.</Card>
+  <Card title="Second card">Card body copy.</Card>
+</CardGrid>
+
+<Tabs>
+  <TabItem label="First">First tab panel.</TabItem>
+  <TabItem label="Second">Second tab panel.</TabItem>
+</Tabs>
+
+<Steps>
+  <Step title="First step">Do the first thing.</Step>
+  <Step title="Second step">Do the second thing.</Step>
+</Steps>
+
+<PackageManagers pkg="@typist/cli" />
+
+## Nesting
+
+Components inside components, where the prose boundary is under the most stress:
+markdown inside a component must keep component styling, not inherit prose rules.
+
+<Steps>
+  <Step title="Step containing an aside and code">
+    <Aside type="tip">An aside nested inside a step.</Aside>
+
+    ```bash
+    npx @typist/cli connect
+    ```
+
+  </Step>
+  <Step title="Step containing a table">
+    | Field | Type |
+    | ----- | ---- |
+    | `id`  | UUID |
+  </Step>
+</Steps>
+
+<Tabs>
+  <TabItem label="Table in a tab">
+    | Column | Column | Column | Column | Column | Column | Column | Column |
+    | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+    | Wide   | table  | that   | must   | scroll | inside | its    | region |
+  </TabItem>
+  <TabItem label="Code in a tab">
+    ```json
+    { "server": "https://mcp.iamtypist.dev", "transport": "http" }
+    ```
+  </TabItem>
+</Tabs>
+
+<CardGrid>
+  <Card title="Card with a list">- First item - Second item</Card>
+  <Card title="Card with inline code">
+    Call `search_transcripts` with a <kbd>query</kbd>.
+  </Card>
+</CardGrid>

@@ -54,10 +54,10 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
     width: 12rem;
     min-height: 2.5rem;
     padding-inline: 0.875rem;
-    border: 1px solid #0d0d0d;
+    border: 1px solid var(--nb-primary);
     border-radius: 9999px;
-    color: #ffffff;
-    background: #0d0d0d;
+    color: var(--nb-primary-foreground);
+    background: var(--nb-primary);
     font: inherit;
     font-weight: 500;
     white-space: nowrap;
@@ -65,7 +65,7 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
   }
 
   button:hover {
-    background: #282828;
+    background: var(--nb-primary-hover);
   }
 
   button svg {
@@ -80,7 +80,7 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
 
   .success-icon {
     display: none;
-    color: #3fb950;
+    color: var(--nb-success);
   }
 
   button[data-copy-state='success'] .copy-icon {

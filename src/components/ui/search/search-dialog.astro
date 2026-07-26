@@ -28,20 +28,18 @@ import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
         </DialogClose>
       </div>
 
-      <div
-        data-search-results
-        role="listbox"
-        id="search-listbox"
-        aria-orientation="vertical"
-        class="min-h-40 overflow-y-auto p-2"
-      >
+      <div class="min-h-40 overflow-y-auto p-2">
+        {/* Outside the listbox: role="listbox" may only contain options, and an
+            empty-state paragraph inside it is an ARIA parent/child violation. */}
         <p data-search-empty class="py-8 text-center text-sm text-muted-foreground">
           Type to search…
         </p>
+        <div data-search-results role="listbox" id="search-listbox" aria-orientation="vertical">
+        </div>
       </div>
     </div>
 
-    <div class="flex items-center gap-4 px-4 py-2.5 text-xs text-muted-foreground/80">
+    <div class="flex items-center gap-4 px-4 py-2.5 text-xs text-muted-foreground">
       <span>↑↓ navigate</span>
       <span>↵ select</span>
       <span>Esc close</span>

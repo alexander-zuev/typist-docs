@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check && nimbus-docs lint",
+    "test": "playwright test",
     "lint": "oxlint . --quiet",
     "lint:fix": "oxlint . --fix --quiet",
     "lint:docs": "nimbus-docs lint",
@@ -33,6 +34,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/vite": "^4.3.3",
     "lint-staged": "^17.2.0",
     "oxfmt": "^0.60.0",
