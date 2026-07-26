@@ -1,5 +1,5 @@
 ---
-title: read_transcript
+title: Read transcript
 description: Read TXT, SRT, or VTT transcript content in bounded pages.
 ---
 

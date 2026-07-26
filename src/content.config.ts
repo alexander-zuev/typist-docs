@@ -1,11 +1,10 @@
-import { docsLoader } from '@astrojs/starlight/loaders'
-import { docsSchema } from '@astrojs/starlight/schema'
+import { docsCollection } from '@cloudflare/nimbus-docs/content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 import { defineCollection } from 'astro:content'
 
 export const collections = {
-  docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
+  docs: defineCollection(docsCollection()),
   changelog: defineCollection({
     loader: glob({ pattern: '**/*.md', base: './src/content/changelog' }),
     schema: z.object({

@@ -1,5 +1,5 @@
 ---
-title: download_transcript
+title: Download transcript
 description: Create a one-hour download URL for a transcript export.
 ---
 

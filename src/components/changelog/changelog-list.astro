@@ -41,3 +41,99 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
     ))
   }
 </div>
+
+<style>
+  .changelog-list {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--nb-border);
+  }
+
+  .changelog-entry {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    border-bottom: 1px solid var(--nb-border);
+  }
+
+  .changelog-entry__date {
+    position: relative;
+    padding: 2rem 1.5rem 2rem 0;
+    border-right: 1px solid var(--nb-border);
+    color: var(--nb-muted-foreground);
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+
+  .changelog-entry__date::after {
+    position: absolute;
+    top: 2.35rem;
+    right: -0.25rem;
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border: 1px solid var(--nb-border-strong);
+    border-radius: 9999px;
+    background: var(--nb-background);
+    content: '';
+  }
+
+  .changelog-entry__body {
+    min-width: 0;
+    padding: 2rem 0 2.5rem 2rem;
+  }
+
+  .changelog-entry__product {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+    padding-inline: 0.5rem;
+    border: 1px solid var(--nb-border-strong);
+    border-radius: 9999px;
+    color: var(--nb-muted-foreground);
+    background: var(--nb-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .changelog-entry h2 {
+    margin-top: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  .changelog-entry h2 a {
+    color: var(--nb-foreground);
+    text-decoration: none;
+  }
+
+  .changelog-entry h2 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .changelog-entry__description {
+    margin-top: 0.5rem;
+    color: var(--nb-muted-foreground);
+  }
+
+  .changelog-entry__content {
+    margin-top: 1.25rem;
+  }
+
+  @media (max-width: 49.99rem) {
+    .changelog-entry {
+      display: block;
+    }
+
+    .changelog-entry__date {
+      padding: 1.5rem 0 0;
+      border-right: 0;
+    }
+
+    .changelog-entry__date::after {
+      display: none;
+    }
+
+    .changelog-entry__body {
+      padding: 0.75rem 0 2rem;
+    }
+  }
+</style>

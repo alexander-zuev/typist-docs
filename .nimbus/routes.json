@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "base": "/",
+  "knownRoutes": [
+    "/",
+    "/404",
+    "/changelog",
+    "/mcp",
+    "/mcp/connect",
+    "/mcp/disconnect",
+    "/mcp/tools/download-transcript",
+    "/mcp/tools/read-transcript",
+    "/mcp/tools/search-transcripts",
+    "/mcp/troubleshooting"
+  ],
+  "opaqueNamespaces": []
+}

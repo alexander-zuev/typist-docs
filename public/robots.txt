@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://docs.iamtypist.dev/sitemap-index.xml

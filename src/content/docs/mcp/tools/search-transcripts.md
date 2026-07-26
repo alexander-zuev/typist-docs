@@ -1,5 +1,5 @@
 ---
-title: search_transcripts
+title: Search transcripts
 description: Search the Typist transcript library or list recent transcripts.
 ---
 

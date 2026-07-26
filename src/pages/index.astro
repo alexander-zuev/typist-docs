@@ -1,0 +1,62 @@
+---
+import Header from '@/components/header.astro'
+import { Card } from '@/components/ui/card'
+import { CardGrid } from '@/components/ui/card-grid'
+import { LinkButton } from '@/components/ui/link-button'
+import BaseLayout from '@/layouts/base-layout.astro'
+---
+
+<BaseLayout
+  title="Typist Platform"
+  description="Connect AI agents and developer tools to Typist."
+>
+  <div class="flex min-h-screen flex-col">
+    <Header showSidebar={false} />
+    <main id="main-content" class="mx-auto w-full max-w-4xl flex-1 px-6 py-16 lg:py-24">
+      <h1
+        class="max-w-2xl leading-tight text-foreground"
+        style="font-size: 2.5rem; font-weight: 600; letter-spacing: -0.03em;"
+      >
+        Typist developer platform
+      </h1>
+      <p class="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+        Give AI agents secure, read-only access to your transcript library.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <LinkButton href="/mcp/connect" icon>Connect with MCP</LinkButton>
+        <LinkButton
+          href="https://github.com/alexander-zuev/typist-mcp"
+          variant="secondary"
+          target="_blank"
+          rel="noopener"
+        >
+          View on GitHub
+        </LinkButton>
+      </div>
+
+      <section class="mt-16" aria-labelledby="mcp-heading">
+        <h2 id="mcp-heading" class="text-2xl font-semibold tracking-tight text-foreground">
+          Typist MCP
+        </h2>
+        <p class="mt-2 max-w-3xl leading-relaxed text-muted-foreground">
+          Remove the export, download, and upload loop between your transcript library and an AI
+          agent.
+        </p>
+        <CardGrid class="mt-6">
+          <Card title="Search transcripts" icon="ph:magnifying-glass">
+            Find completed transcripts by title, topic, category, or date.
+          </Card>
+          <Card title="Read transcript content" icon="ph:book-open">
+            Read TXT, SRT, or VTT content in bounded pages that fit an agent context window.
+          </Card>
+          <Card title="Download exports" icon="ph:download-simple">
+            Create one-hour download links for TXT, SRT, and VTT exports.
+          </Card>
+          <Card title="Read-only by design" icon="ph:shield-check">
+            Agents cannot create, edit, or delete transcripts.
+          </Card>
+        </CardGrid>
+      </section>
+    </main>
+  </div>
+</BaseLayout>
