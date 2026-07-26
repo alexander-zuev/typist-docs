@@ -5,6 +5,7 @@
   "description": "Developer documentation for Typist",
   "type": "module",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check && nimbus-docs lint",
@@ -33,12 +34,22 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@tailwindcss/vite": "^4.3.3",
+    "lint-staged": "^17.2.0",
     "oxfmt": "^0.60.0",
     "oxlint": "^1.75.0",
     "pagefind": "^1.5.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "wrangler": "^4.114.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts,astro}": [
+      "oxfmt --write --no-error-on-unmatched-pattern",
+      "oxlint --fix"
+    ],
+    "*.{json,jsonc,yaml,yml,md,mdx,css}": [
+      "oxfmt --write --no-error-on-unmatched-pattern"
+    ]
   },
   "devEngines": {
     "runtime": {
