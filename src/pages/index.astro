@@ -1,9 +1,9 @@
 ---
 import Header from '@/components/header.astro'
 import SiteFooter from '@/components/site-footer.astro'
-import { Card } from '@/components/ui/card'
 import { CardGrid } from '@/components/ui/card-grid'
 import { LinkButton } from '@/components/ui/link-button'
+import { LinkCard } from '@/components/ui/link-card'
 import BaseLayout from '@/layouts/base-layout.astro'
 ---
 
@@ -25,13 +25,10 @@ import BaseLayout from '@/layouts/base-layout.astro'
       </p>
       <div class="mt-7 flex flex-wrap gap-3">
         <LinkButton href="/mcp/quickstart" icon>Get started</LinkButton>
-        <LinkButton
-          href="https://github.com/alexander-zuev/typist-docs"
-          variant="secondary"
-          target="_blank"
-          rel="noopener"
-        >
-          View on GitHub
+        {/* The platform needs a Typist account, and the header already carries
+            the GitHub link, so the second CTA routes to the product instead. */}
+        <LinkButton href="https://iamtypist.dev" variant="secondary" target="_blank" rel="noopener">
+          Open Typist
         </LinkButton>
       </div>
 
@@ -46,19 +43,25 @@ import BaseLayout from '@/layouts/base-layout.astro'
           Remove the export, download, and upload loop between your transcript library and an AI
           agent.
         </p>
+        {/* Routes rather than features: the tool surface is described on the
+            overview page, and a landing card that cannot be clicked is dead
+            weight next to it. */}
         <CardGrid class="mt-6">
-          <Card title="Search transcripts" icon="ph:magnifying-glass">
-            Find completed transcripts by title, topic, category, or date.
-          </Card>
-          <Card title="Read transcript content" icon="ph:book-open">
-            Read TXT, SRT, or VTT content in bounded pages that fit an agent context window.
-          </Card>
-          <Card title="Download exports" icon="ph:download-simple">
-            Create one-hour download links for TXT, SRT, and VTT exports.
-          </Card>
-          <Card title="Read-only by design" icon="ph:shield-check">
-            Agents cannot create, edit, or delete transcripts.
-          </Card>
+          <LinkCard
+            title="Quickstart"
+            href="/mcp/quickstart"
+            description="Connect Claude Code and ask your first question in two minutes."
+          />
+          <LinkCard
+            title="Connect a client"
+            href="/mcp/connect"
+            description="Claude, ChatGPT, Claude Code, Codex, Cursor, VS Code, and others."
+          />
+          <LinkCard
+            title="Examples"
+            href="/mcp/examples"
+            description="Prompts that search, summarize, and compare across recordings."
+          />
         </CardGrid>
       </section>
     </main>
