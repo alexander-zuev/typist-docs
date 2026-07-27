@@ -1,0 +1,47 @@
+---
+title: Errors and limits
+description: Rate limits, error messages, and input constraints for the Typist MCP tools.
+---
+
+Every value on this page is enforced by the server. If a tool behaves differently, that is a bug worth reporting.
+
+## Rate limits
+
+Limits are per user, per tool, over a rolling 60 second window. Calling one tool does not consume another tool's budget.
+
+| Tool                  | Calls per minute |
+| --------------------- | ---------------- |
+| `search_transcripts`  | 60               |
+| `read_transcript`     | 30               |
+| `download_transcript` | 30               |
+
+When a limit is exceeded, the tool returns an error telling you how many seconds to wait:
+
+```text
+Rate limit exceeded. Retry in 12 seconds.
+```
+
+Agents should back off for that many seconds rather than retrying immediately. A retry inside the window consumes nothing and fails the same way.
+
+## Errors
+
+MCP tools do not return HTTP status codes. Failures come back as tool errors carrying a message, which is what your agent sees.
+
+| Message              | Cause                                                               | What to do                                                 |
+| -------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Invalid input        | An argument failed validation, for example `maxChars` above 90000   | Fix the argument and call again                            |
+| Authentication error | The OAuth token is missing, expired, or revoked                     | Reconnect the client, see [Connect a client](/mcp/connect) |
+| Transcript not found | The id does not exist, or the transcript belongs to another account | Call `search_transcripts` to get valid ids                 |
+| Billing error        | The account cannot serve this request on its current plan           | Check your plan in the Typist app                          |
+| Rate limit exceeded  | Too many calls to that tool inside 60 seconds                       | Wait the number of seconds in the message                  |
+| Something went wrong | An unexpected server error                                          | Retry once, then report it                                 |
+
+`Something went wrong` is deliberately generic. Internal errors never leak details to the client, so if you see it repeatedly, the useful information is on our side and worth reporting with the approximate time of the call.
+
+## Download links
+
+`download_transcript` returns a signed URL along with an `expiresAt` timestamp. The link is valid for **one hour** from the moment it is issued. After that it returns an error from storage rather than a Typist error, so agents should treat the URL as short-lived and fetch it promptly rather than storing it.
+
+## Locked transcripts
+
+Transcripts that are not unlocked on your plan still appear in `search_transcripts` results with `locked: true`. `read_transcript` serves their preview rather than the full text, and no error is raised. Check the `locked` flag before assuming a short result means a short recording.

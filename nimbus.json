@@ -10,5 +10,29 @@
       "@/*": "src/*"
     }
   },
-  "components": []
+  "components": [
+    {
+      "slug": "code-group",
+      "type": "registry:ui",
+      "version": "0.8.2",
+      "source": "https://nimbus-docs.com/registry",
+      "hash": "sha256:ead8f7019f289e305329b57cdcce7024c81be26e1202910fa25262bdeecd0837",
+      "files": [
+        "src/components/ui/code-group/code-group.astro",
+        "src/components/ui/code-group/code-group.client.ts",
+        "src/components/ui/code-group/index.ts"
+      ]
+    },
+    {
+      "slug": "link-card",
+      "type": "registry:ui",
+      "version": "0.8.2",
+      "source": "https://nimbus-docs.com/registry",
+      "hash": "sha256:50a1a703d1111aff309a92256dda1d8dbcb10ba92afd3ff8d4b2a92ac8aab069",
+      "files": [
+        "src/components/ui/link-card/link-card.astro",
+        "src/components/ui/link-card/index.ts"
+      ]
+    }
+  ]
 }

@@ -1,0 +1,55 @@
+---
+title: Quickstart
+description: Connect Typist to Claude Code and ask your first question about a transcript in under two minutes.
+---
+
+The shortest path from nothing to an agent answering from your own transcripts. This uses Claude Code; every other client is covered in [Connect a client](/mcp/connect).
+
+You need a Typist account with at least one completed transcript.
+
+<Steps>
+  <Step title="Add the server">
+    ```bash
+    claude mcp add --transport http typist https://mcp.iamtypist.dev/mcp
+    ```
+
+    No API key. The server uses browser-based OAuth.
+
+  </Step>
+
+  <Step title="Approve access">
+    Run `/mcp`, select `typist`, and approve read-only access in the browser tab that opens.
+
+    ```text
+    typist  ✓ connected
+    ```
+
+  </Step>
+
+  <Step title="Ask a question">
+    ```text
+    What are the last three transcripts in my Typist library about?
+    ```
+
+    The agent calls `search_transcripts`, gets titles, topics, and durations back, then reads whichever transcript it needs with `read_transcript`.
+
+  </Step>
+</Steps>
+
+## What just happened
+
+Your agent gained three read-only tools against your library:
+
+| Tool                  | What the agent does with it                          |
+| --------------------- | ---------------------------------------------------- |
+| `search_transcripts`  | Finds transcripts by topic, category, or date        |
+| `read_transcript`     | Reads the text, in pages that fit its context        |
+| `download_transcript` | Creates a one-hour link to a txt, srt, or vtt export |
+
+No transcript was copied, pasted, or uploaded. The agent read from your library directly, and it cannot create, edit, or delete anything there.
+
+## Next
+
+- [Examples](/mcp/examples): prompts that do real work
+- [How it works](/mcp/how-it-works): the OAuth flow, scope, and what the agent can see
+- [Connect a client](/mcp/connect): Claude, ChatGPT, Codex, Cursor, VS Code, and others

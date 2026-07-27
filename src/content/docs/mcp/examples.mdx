@@ -1,0 +1,66 @@
+---
+title: Examples
+description: Prompts that turn a transcript library into answers, summaries, and exports.
+---
+
+Prompts that work against a connected library. Each one names the tools the agent will reach for, so you can tell whether a disappointing answer came from the prompt or from the data.
+
+## Find something you half remember
+
+```text
+Find the transcript where we discussed pricing objections, and quote what was actually said.
+```
+
+The agent searches by topic, then reads the matching transcript. Search covers titles and topics rather than the full text, so name the subject the way the recording is titled or tagged. If nothing matches, ask it to list recent transcripts first and pick from those.
+
+Uses `search_transcripts`, then `read_transcript`.
+
+## Summarize a batch
+
+```text
+Summarize every transcript from last week into one page: decisions, open questions, who owns what.
+```
+
+The agent filters by date range, then reads each result. Long transcripts arrive in pages, so a busy week means many `read_transcript` calls. Ask for the summary shape you want up front, otherwise you get a wall of prose per recording.
+
+Uses `search_transcripts`, then `read_transcript` repeatedly.
+
+## Compare across recordings
+
+```text
+Across my customer calls this month, what did people say about onboarding? Group by theme and cite the transcript.
+```
+
+This is the prompt the tools exist for: no export, no upload, no copy and paste. Ask for citations explicitly, otherwise the agent may blend sources and you lose the ability to check a claim.
+
+Uses `search_transcripts`, then `read_transcript`.
+
+## Pull subtitles for a video
+
+```text
+Give me a download link for the SRT of my product demo recording.
+```
+
+Subtitle formats come back as a signed link rather than inline text. The link is valid for one hour, so fetch it promptly rather than saving it for later.
+
+Uses `search_transcripts`, then `download_transcript` with `format: "srt"`.
+
+## Work through a long recording
+
+```text
+Read the full two-hour workshop transcript and pull out every action item.
+```
+
+Transcripts arrive in pages. The agent follows `nextOffset` until it reaches the end, so a long recording costs several calls. Clients with generous output limits can raise `maxChars` to page less often, up to 90000 characters per call.
+
+Uses `read_transcript` repeatedly.
+
+## When results look thin
+
+A short answer usually means one of three things:
+
+- **The transcript is locked on your plan.** It still appears in search with `locked: true`, and reading it returns a preview rather than the full text.
+- **The search terms do not match the title or topics.** List recent transcripts and let the agent pick, rather than guessing at wording.
+- **The agent stopped early.** Long transcripts are paged, and an agent that does not follow `nextOffset` sees only the first page. Ask it to read to the end.
+
+[Errors and limits](/mcp/errors) covers rate limits and the exact error messages.

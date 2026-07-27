@@ -1,0 +1,62 @@
+---
+title: How it works
+description: The OAuth flow, what access a connected client actually gets, and where the boundaries are.
+---
+
+What happens between adding the server URL and an agent reading your transcripts, and what that agent can and cannot do once connected.
+
+## Connecting
+
+Typist MCP is itself the OAuth authorization server. There is no API key to create, copy, or rotate.
+
+<Steps>
+  <Step title="The client registers itself">
+    MCP clients register dynamically at `/register`. This is why you paste a URL rather than filling in a client ID and secret.
+  </Step>
+
+<Step title="You approve in a browser">
+  The client sends you to `/authorize`, which hands off to the Typist app for sign-in and a consent
+  screen. You approve there, in your own session, not inside the agent.
+</Step>
+
+  <Step title="The client exchanges a code for a token">
+    PKCE is required, and the plain code challenge is refused. The token the client stores is bound to your user account.
+  </Step>
+</Steps>
+
+Every subsequent tool call carries that token, and the server resolves it to your account before touching any data. An agent never sees your Typist password, and it never holds a credential that works anywhere else.
+
+## What a connected client can do
+
+Three tools, all read-only, all scoped to your own library:
+
+| Tool                  | Reads                                                      |
+| --------------------- | ---------------------------------------------------------- |
+| `search_transcripts`  | Titles, topics, categories, dates, duration, locked status |
+| `read_transcript`     | Transcript text, in pages, as txt, srt, or vtt             |
+| `download_transcript` | A signed export link valid for one hour                    |
+
+Each tool is declared to the client as read-only, so agents that surface capability hints will show them as safe to call without confirmation.
+
+## What it cannot do
+
+- **Write anything.** There is no tool to create, rename, edit, or delete a transcript. The surface does not exist, so no prompt can reach it.
+- **See another account.** The token resolves to one user. There is no cross-account or workspace-wide access.
+- **Touch your recordings or billing.** Only transcript metadata and text are exposed.
+- **Hold a link indefinitely.** Export URLs are signed for one hour and then stop working.
+
+## What the agent actually receives
+
+`search_transcripts` returns metadata, not text: titles, topics, category, duration, and a `locked` flag. The agent decides from that what is worth reading.
+
+`read_transcript` returns text in pages, defaulting to 2000 characters with a `nextOffset` to continue. The default is small because many clients cap tool output; clients that can take more can request up to 90000 characters per call. A long recording therefore costs several calls, and an agent that ignores `nextOffset` will only ever see the beginning.
+
+Transcripts not unlocked on your plan stay visible in search with `locked: true`, and reading one returns its preview rather than the full text. That is not an error, which is why a thin answer is worth checking against the `locked` flag.
+
+## Limits
+
+Calls are metered per user, per tool, over a rolling minute. [Errors and limits](/mcp/errors) has the exact numbers and every error message the tools can return.
+
+## Disconnecting
+
+Access ends when you revoke it, from either side. [Disconnect Typist](/mcp/disconnect) covers removing the connection and what happens to tokens the client already holds.

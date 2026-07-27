@@ -18,7 +18,7 @@ const nimbusConfig = defineNimbusConfig({
     items: [
       {
         label: 'Typist MCP',
-        items: ['mcp', 'mcp/connect'],
+        items: ['mcp', 'mcp/quickstart', 'mcp/connect', 'mcp/examples', 'mcp/how-it-works'],
       },
       {
         label: 'Tools',
@@ -30,7 +30,7 @@ const nimbusConfig = defineNimbusConfig({
       },
       {
         label: 'Help',
-        items: ['mcp/troubleshooting', 'mcp/disconnect'],
+        items: ['mcp/errors', 'mcp/troubleshooting', 'mcp/disconnect'],
       },
     ],
     indexDisplay: 'overview-leaf',
