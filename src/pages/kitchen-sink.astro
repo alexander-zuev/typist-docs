@@ -1,0 +1,30 @@
+---
+/**
+ * Harness fixture route. Renders every component and prose element for the
+ * accessibility, contrast, reflow, and markup-contract checks to scan.
+ *
+ * The content deliberately lives outside `src/content/docs`, so it is not a
+ * collection entry and therefore absent from the corpus, search index, sidebar,
+ * and prev/next by construction. `noindex` covers crawlers; the sitemap filter
+ * in astro.config.ts covers the one surface built from routes rather than
+ * collections.
+ */
+import Content from "../fixtures/kitchen-sink.mdx";
+import DocsLayout from "../layouts/docs-layout.astro";
+import { components } from "../components";
+
+export const prerender = true;
+---
+
+<DocsLayout
+  title="Kitchen sink"
+  description="Every styled element on one page, used as the test-harness fixture."
+  sidebar={false}
+  headings={false}
+  breadcrumbs={[]}
+  prevNext={{}}
+  noindex
+  searchable={false}
+>
+  <Content components={components} />
+</DocsLayout>

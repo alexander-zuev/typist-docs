@@ -65,6 +65,12 @@ export default defineConfig({
       markdown: {
         hastPlugins: [scrollableTable()],
       },
+      // The sitemap is built from routes, not collections, so the harness
+      // fixture at /kitchen-sink has to be dropped explicitly. Returning
+      // undefined omits an entry.
+      sitemap: {
+        serialize: (item) => (item.url.includes('/kitchen-sink') ? undefined : item),
+      },
     }),
   ],
 })

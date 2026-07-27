@@ -51,7 +51,9 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
     align-items: center;
     gap: 0.5rem;
     justify-content: center;
-    width: 12rem;
+    /* Fixed 12rem becomes 384px at 200% text and overflows a phone viewport,
+       so the width caps at the container (WCAG 1.4.4). */
+    width: min(12rem, 100%);
     min-height: 2.5rem;
     padding-inline: 0.875rem;
     border: 1px solid var(--nb-primary);

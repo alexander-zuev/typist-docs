@@ -8,6 +8,7 @@
 import { Icon } from "astro-icon/components";
 import BaseLayout from "./base-layout.astro";
 import Header from "@/components/header.astro";
+import SiteFooter from "@/components/site-footer.astro";
 import { Banner } from "@/components/ui/banner";
 import { Sidebar, SidebarFilter } from "@/components/ui/sidebar";
 import { TOC, MobileTOC } from "@/components/ui/toc";
@@ -238,6 +239,8 @@ const hasPagination = Astro.slots.has("pagination");
     )}
 
   </div>
+
+  <SiteFooter />
 
   {showSidebar && (
     /* Mobile sidebar — native <dialog> for free focus trap, escape, backdrop. */

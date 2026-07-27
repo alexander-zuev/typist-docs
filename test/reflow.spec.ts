@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { sitemapPaths } from './pages'
+
 /**
  * Geometry checks axe has no rule for.
  *
@@ -12,7 +14,10 @@ import { expect, test } from '@playwright/test'
  * Browser text-zoom scales fonts without scaling the layout, so anything sized
  * in px with a fixed height loses its text — rem-based sizing survives.
  */
-const PAGES = ['/mcp', '/kitchen-sink', '/mcp/tools/search-transcripts']
+// Every published page plus the fixture: layout regressions show up per-page
+// (a wide table on one, an overflowing header on another), so sampling a few
+// would miss exactly the cases this is for.
+const PAGES = [...new Set([...sitemapPaths(), '/kitchen-sink'])]
 
 const overflow = (page: import('@playwright/test').Page) =>
   page.evaluate(() => {

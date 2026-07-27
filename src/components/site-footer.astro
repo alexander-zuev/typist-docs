@@ -1,0 +1,24 @@
+---
+/**
+ * Colophon. One muted line, edge to edge, no nav duplication — the sidebar owns
+ * navigation and a docs page should end at its content.
+ */
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div
+    class="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-3 text-xs text-muted-foreground lg:px-6"
+  >
+    <span>&copy; {year} Typist</span>
+    <span>
+      Built with <a
+        href="https://nimbus-docs.com"
+        target="_blank"
+        rel="noopener"
+        class="text-muted-foreground underline decoration-[var(--nb-link-underline)] underline-offset-2 transition-colors hover:text-foreground"
+        >Nimbus</a
+      >
+    </span>
+  </div>
+</footer>

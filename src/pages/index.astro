@@ -1,5 +1,6 @@
 ---
 import Header from '@/components/header.astro'
+import SiteFooter from '@/components/site-footer.astro'
 import { Card } from '@/components/ui/card'
 import { CardGrid } from '@/components/ui/card-grid'
 import { LinkButton } from '@/components/ui/link-button'
@@ -17,7 +18,7 @@ import BaseLayout from '@/layouts/base-layout.astro'
         class="max-w-2xl leading-tight text-foreground"
         style="font-size: 2.5rem; font-weight: 600; letter-spacing: -0.03em;"
       >
-        Typist developer platform
+        Typist Developer Platform
       </h1>
       <p class="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">
         Give AI agents secure, read-only access to your transcript library.
@@ -58,5 +59,6 @@ import BaseLayout from '@/layouts/base-layout.astro'
         </CardGrid>
       </section>
     </main>
+    <SiteFooter />
   </div>
 </BaseLayout>
