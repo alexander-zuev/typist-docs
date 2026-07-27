@@ -18,7 +18,7 @@ const nimbusConfig = defineNimbusConfig({
     items: [
       {
         label: 'Typist MCP',
-        items: ['mcp', 'mcp/quickstart', 'mcp/connect', 'mcp/examples', 'mcp/how-it-works'],
+        items: ['mcp', 'mcp/quickstart', 'mcp/connect', 'mcp/examples'],
       },
       {
         label: 'Tools',
