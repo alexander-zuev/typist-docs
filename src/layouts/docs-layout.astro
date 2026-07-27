@@ -183,7 +183,10 @@ const hasPagination = Astro.slots.has("pagination");
                 ) : (
                   <Fragment>
                     <div class="flex items-center gap-3 flex-wrap mt-6">
-                      <h1 class="text-foreground mb-0 leading-tight [text-wrap:balance]" style={`font-size:var(--nb-h1-size);font-weight:var(--nb-h1-weight);letter-spacing:var(--nb-h1-tracking)`}>{title}</h1>
+                      {/* `overflow-wrap:anywhere`, not `break-word`: only the
+                          former shrinks the element's intrinsic min-content
+                          width, which is what a long title overflows at 200%. */}
+                      <h1 class="text-foreground mb-0 leading-tight [overflow-wrap:anywhere] [text-wrap:balance]" style={`font-size:var(--nb-h1-size);font-weight:var(--nb-h1-weight);letter-spacing:var(--nb-h1-tracking)`}>{title}</h1>
                       {draft && <Badge text="Draft" variant="warning" size="medium" />}
                     </div>
                     {description && (

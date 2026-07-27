@@ -16,21 +16,28 @@ const nimbusConfig = defineNimbusConfig({
   socialImageAlt: 'Typist Platform documentation',
   sidebar: {
     items: [
+      // One group per product. MCP owns its own tools and help, so a second
+      // product becomes a sibling here and nothing about MCP moves.
       {
         label: 'Typist MCP',
-        items: ['mcp', 'mcp/quickstart', 'mcp/connect', 'mcp/examples'],
-      },
-      {
-        label: 'Tools',
         items: [
-          'mcp/tools/search-transcripts',
-          'mcp/tools/read-transcript',
-          'mcp/tools/download-transcript',
+          'mcp',
+          'mcp/quickstart',
+          'mcp/connect',
+          'mcp/examples',
+          {
+            label: 'Tools',
+            items: [
+              'mcp/tools/search-transcripts',
+              'mcp/tools/read-transcript',
+              'mcp/tools/download-transcript',
+            ],
+          },
+          {
+            label: 'Help',
+            items: ['mcp/errors', 'mcp/troubleshooting', 'mcp/disconnect'],
+          },
         ],
-      },
-      {
-        label: 'Help',
-        items: ['mcp/errors', 'mcp/troubleshooting', 'mcp/disconnect'],
       },
     ],
     indexDisplay: 'overview-leaf',

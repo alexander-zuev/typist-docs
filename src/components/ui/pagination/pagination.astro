@@ -10,26 +10,30 @@ interface Props extends HTMLAttributes<"nav"> {
 
 const { prevNext, class: className, ...attrs } = Astro.props;
 const { prev, next } = prevNext;
+
+// `min-w-0` on the links and `break-words` on the labels: at 200% text on a
+// narrow viewport, two long page titles side by side would push the page
+// sideways (WCAG 1.4.4).
 ---
 
 {(prev || next) && (
-  <nav aria-label="Pagination" class={cn("flex items-center justify-between mt-12 pt-6 border-t border-border", className)} {...attrs}>
+  <nav aria-label="Pagination" class={cn("flex items-center justify-between gap-4 mt-12 pt-6 border-t border-border", className)} {...attrs}>
     {prev ? (
-      <a href={prev.href} class="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-        <Icon name="ph:caret-left" class="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-        <span>
+      <a href={prev.href} class="group flex min-w-0 items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <Icon name="ph:caret-left" class="w-4 h-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
+        <span class="min-w-0">
           <span class="block text-xs text-muted-foreground">Previous</span>
-          <span class="font-medium text-foreground">{prev.label}</span>
+          <span class="font-medium text-foreground break-words">{prev.label}</span>
         </span>
       </a>
     ) : <span />}
     {next ? (
-      <a href={next.href} class="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors text-right">
-        <span>
+      <a href={next.href} class="group flex min-w-0 items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors text-right">
+        <span class="min-w-0">
           <span class="block text-xs text-muted-foreground">Next</span>
-          <span class="font-medium text-foreground">{next.label}</span>
+          <span class="font-medium text-foreground break-words">{next.label}</span>
         </span>
-        <Icon name="ph:caret-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5" is:inline />
+        <Icon name="ph:caret-right" class="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5" is:inline />
       </a>
     ) : <span />}
   </nav>

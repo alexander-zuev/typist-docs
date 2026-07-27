@@ -65,9 +65,13 @@ test.describe('text resized to 200%', () => {
     test(`no clipping or page scroll: ${path}`, async ({ page }) => {
       await page.goto(path)
       // The root font size is the anchor for every rem in the system, so
-      // doubling it reproduces a 200% text-only zoom.
-      await page.evaluate(() => {
+      // doubling it reproduces a 200% text-only zoom. Measuring in the same
+      // task as the mutation reads a half-relaid-out page, so wait for fonts
+      // to settle and for two frames to pass before taking geometry.
+      await page.evaluate(async () => {
         document.documentElement.style.fontSize = '32px'
+        await document.fonts.ready
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
       })
 
       expect(await overflow(page)).toEqual({ pageScroll: 0, offenders: [] })
