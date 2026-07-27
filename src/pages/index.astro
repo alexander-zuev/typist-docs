@@ -40,8 +40,7 @@ import BaseLayout from '@/layouts/base-layout.astro'
           Typist MCP
         </h2>
         <p class="mt-2 max-w-3xl leading-relaxed text-muted-foreground">
-          Remove the export, download, and upload loop between your transcript library and an AI
-          agent.
+          Your agent reads your transcript library directly. Nothing to export, download, or paste.
         </p>
         {/* Routes rather than features: the tool surface is described on the
             overview page, and a landing card that cannot be clicked is dead
@@ -50,16 +49,19 @@ import BaseLayout from '@/layouts/base-layout.astro'
           <LinkCard
             title="Quickstart"
             href="/mcp/quickstart"
+            icon="ph:lightning"
             description="Connect Claude Code and ask your first question in two minutes."
           />
           <LinkCard
             title="Connect a client"
             href="/mcp/connect"
+            icon="ph:plugs-connected"
             description="Claude, ChatGPT, Claude Code, Codex, Cursor, VS Code, and others."
           />
           <LinkCard
             title="Examples"
             href="/mcp/examples"
+            icon="ph:sparkle"
             description="Prompts that search, summarize, and compare across recordings."
           />
         </CardGrid>
