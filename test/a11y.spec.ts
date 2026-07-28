@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { axeViolations } from './axe'
-import { sitemapPaths } from './pages'
+import { testedPagePaths } from './pages'
 
 /**
  * axe covers text contrast, heading order, landmarks, and ARIA on every
@@ -9,7 +9,7 @@ import { sitemapPaths } from './pages'
  * rule (tokens.spec.ts), and hidden surfaces are skipped entirely by axe
  * (interactive.spec.ts).
  */
-for (const path of new Set([...sitemapPaths(), '/kitchen-sink'])) {
+for (const path of testedPagePaths()) {
   test(`a11y: ${path}`, async ({ page }) => {
     await page.goto(path)
     expect(await axeViolations(page)).toEqual([])

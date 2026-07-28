@@ -17,10 +17,14 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
 </div>
 
 <script>
+  import { mount } from "@cloudflare/nimbus-docs/client";
   import posthog from "posthog-js";
 
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-setup-prompt]')) {
-    button.addEventListener('click', async () => {
+  mount('[data-setup-prompt]', (root) => {
+    const button = root as HTMLButtonElement
+    let resetTimer: number | undefined
+
+    async function handleClick() {
       const prompt = button.dataset.setupPrompt
       const label = button.querySelector<HTMLElement>('[data-copy-label]')
       if (!prompt || !label) return
@@ -28,19 +32,25 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
       try {
         await navigator.clipboard.writeText(prompt)
         button.dataset.copyState = 'success'
-        label.textContent = 'Copied'
+        label.textContent = 'Prompt copied'
         if (import.meta.env.PUBLIC_POSTHOG_KEY) {
           posthog.capture('docs_code_copied', { page: location.pathname, kind: 'setup_prompt' })
         }
       } catch {
         label.textContent = 'Copy failed'
       }
-      window.setTimeout(() => {
+      resetTimer = window.setTimeout(() => {
         delete button.dataset.copyState
         label.textContent = 'Copy this prompt'
       }, 2000)
-    })
-  }
+    }
+
+    button.addEventListener('click', handleClick)
+    return () => {
+      button.removeEventListener('click', handleClick)
+      if (resetTimer) window.clearTimeout(resetTimer)
+    }
+  })
 </script>
 
 <style>
@@ -55,7 +65,7 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
     flex: none;
     align-items: center;
     gap: 0.5rem;
-    justify-content: center;
+    justify-content: flex-start;
     /* Fixed 12rem becomes 384px at 200% text and overflows a phone viewport,
        so the width caps at the container (WCAG 1.4.4). */
     width: min(12rem, 100%);
@@ -87,7 +97,6 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
 
   .success-icon {
     display: none;
-    color: var(--nb-success);
   }
 
   button[data-copy-state='success'] .copy-icon {

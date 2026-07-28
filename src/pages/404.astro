@@ -1,29 +1,47 @@
 ---
-import BaseLayout from "../layouts/base-layout.astro";
-import Header from "../components/header.astro";
-import { config } from "virtual:nimbus/config";
+import { Icon } from "astro-icon/components";
+
+import Header from "@/components/header.astro";
+import SiteFooter from "@/components/site-footer.astro";
+import { LinkButton } from "@/components/ui/link-button";
+import BaseLayout from "@/layouts/base-layout.astro";
 ---
 
-<BaseLayout title={`Page not found · ${config.title}`} description="The page you're looking for doesn't exist.">
-  <div class="flex flex-col min-h-screen">
-    <Header />
-    <main class="flex-1 mx-auto max-w-2xl w-full px-6 py-24 text-center">
-      <p class="text-sm font-medium text-muted-foreground">404</p>
-      <h1
-        class="mt-2 text-foreground leading-tight"
-        style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
+<BaseLayout
+  title="Page not found"
+  description="The requested Typist documentation page does not exist."
+  noindex
+>
+  <div class="flex min-h-screen flex-col">
+    <Header showSidebar={false} />
+    <main id="main-content" class="flex flex-1 items-center justify-center px-6 py-20">
+      <section
+        class="w-full max-w-xl rounded-xl bg-card px-6 py-12 text-center ring ring-border sm:px-12"
+        aria-labelledby="not-found-heading"
       >
-        Page not found
-      </h1>
-      <p class="mt-2 text-[1.0625rem] text-muted-foreground leading-relaxed">
-        The page you're looking for doesn't exist or has moved.
-      </p>
-      <a
-        href="/"
-        class="mt-8 inline-block rounded-lg border border-border px-4 py-2 font-medium text-foreground no-underline transition-colors hover:border-border-strong"
-      >
-        Back home
-      </a>
+        <div
+          class="mx-auto flex size-14 items-center justify-center rounded-xl bg-muted text-muted-foreground ring ring-border"
+        >
+          <Icon name="ph:map-trifold" class="size-7" aria-hidden="true" />
+        </div>
+        <p class="mt-6 font-mono text-xs font-medium tracking-widest text-muted-foreground uppercase">
+          Error 404
+        </p>
+        <h1
+          id="not-found-heading"
+          class="mt-2 leading-tight text-foreground"
+          style="font-size: var(--nb-h1-size); font-weight: var(--nb-h1-weight); letter-spacing: var(--nb-h1-tracking);"
+        >
+          This page took a wrong turn
+        </h1>
+        <p class="mx-auto mt-3 max-w-md leading-relaxed text-muted-foreground">
+          The documentation may have moved, or the address may be incomplete.
+        </p>
+        <div class="mt-8 flex justify-center">
+          <LinkButton href="/" icon>Back to docs</LinkButton>
+        </div>
+      </section>
     </main>
+    <SiteFooter />
   </div>
 </BaseLayout>

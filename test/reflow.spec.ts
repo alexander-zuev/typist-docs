@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { sitemapPaths } from './pages'
+import { testedPagePaths } from './pages'
 
 /**
  * Geometry checks axe has no rule for.
@@ -17,7 +17,7 @@ import { sitemapPaths } from './pages'
 // Every published page plus the fixture: layout regressions show up per-page
 // (a wide table on one, an overflowing header on another), so sampling a few
 // would miss exactly the cases this is for.
-const PAGES = [...new Set([...sitemapPaths(), '/kitchen-sink'])]
+const PAGES = testedPagePaths()
 
 const overflow = (page: import('@playwright/test').Page) =>
   page.evaluate(() => {

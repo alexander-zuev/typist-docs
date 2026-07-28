@@ -49,3 +49,25 @@ test('mobile sidebar is accessible when open', async ({ page, viewport }) => {
 
   expect(await axeViolations(page)).toEqual([])
 })
+
+test('client navigation preserves runtime and rebinds page scripts', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: async () => {} },
+    })
+  })
+  await page.goto('/mcp/connect')
+  await page.evaluate(
+    () => ((window as Window & { __routerRuntime?: boolean }).__routerRuntime = true),
+  )
+
+  await page.locator('header a[href="/"]').click()
+  await page.locator('a[href="/mcp/connect"]').first().click()
+
+  expect(
+    await page.evaluate(() => (window as Window & { __routerRuntime?: boolean }).__routerRuntime),
+  ).toBe(true)
+  await page.locator('[data-setup-prompt]').click()
+  await expect(page.locator('[data-copy-label]')).toHaveText('Prompt copied')
+})

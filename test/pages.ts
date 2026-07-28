@@ -1,9 +1,11 @@
 import { readFileSync } from 'node:fs'
 
+const NON_SITEMAP_PAGES = ['/404.html', '/kitchen-sink'] as const
+
 /**
  * Page list is derived from the built sitemap so new docs pages are covered
- * automatically. `noindex` pages (kitchen sink) are absent by design — they
- * are asserted explicitly where relevant.
+ * automatically. Special and noindex pages are added explicitly because they
+ * are absent from the sitemap by design.
  */
 export function sitemapPaths(): string[] {
   const xml = readFileSync(new URL('../dist/sitemap-0.xml', import.meta.url), 'utf8')
@@ -14,4 +16,8 @@ export function sitemapPaths(): string[] {
   )
   if (urls.length === 0) throw new Error('No URLs in sitemap — run `pnpm build` first')
   return urls.sort()
+}
+
+export function testedPagePaths(): string[] {
+  return [...new Set([...sitemapPaths(), ...NON_SITEMAP_PAGES])]
 }

@@ -3,6 +3,7 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
 import "../styles/globals.css";
 import "../styles/prose.css";
+import { ClientRouter } from "astro:transitions";
 import { config } from "virtual:nimbus/config";
 import { getCollectionLlmsUrl, getVersionStatus } from "@cloudflare/nimbus-docs";
 import AgentDirective from "@/components/agent-directive.astro";
@@ -43,10 +44,11 @@ const llmsUrl = Astro.site
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ClientRouter />
 
     <NimbusHead
       title={title}
