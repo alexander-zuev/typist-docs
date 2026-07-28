@@ -14,8 +14,10 @@ import BaseLayout from '@/layouts/base-layout.astro'
   <div class="flex min-h-screen flex-col">
     <Header showSidebar={false} />
     <main id="main-content" class="mx-auto w-full max-w-4xl flex-1 px-6 py-16 lg:py-24">
+      {/* At 200% text zoom on a 390px viewport a single word of this heading is
+          wider than the column, so it has to be allowed to break (SC 1.4.4). */}
       <h1
-        class="max-w-2xl leading-tight text-foreground"
+        class="max-w-2xl leading-tight break-words text-foreground"
         style="font-size: 2.5rem; font-weight: 600; letter-spacing: -0.03em;"
       >
         Typist Developer Platform
