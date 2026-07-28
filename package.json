@@ -30,6 +30,7 @@
     "astro-og-canvas": "^0.13.0",
     "canvaskit-wasm": "^0.41.1",
     "clsx": "^2.1.1",
+    "posthog-js": "^1.407.2",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

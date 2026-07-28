@@ -1,0 +1,19 @@
+---
+/**
+ * Loads PostHog when a project key is configured. No key means no analytics,
+ * which is the local and preview default.
+ *
+ * The script is deliberately NOT `is:inline`: it imports posthog-js from npm,
+ * so Astro has to bundle it for the specifier to resolve in a browser.
+ */
+const key = import.meta.env.PUBLIC_POSTHOG_KEY;
+---
+
+{
+  key && (
+    <script>
+      import { initAnalytics } from "./analytics.client";
+      initAnalytics(import.meta.env.PUBLIC_POSTHOG_KEY);
+    </script>
+  )
+}

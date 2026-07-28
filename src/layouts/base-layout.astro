@@ -6,6 +6,7 @@ import "../styles/prose.css";
 import { config } from "virtual:nimbus/config";
 import { getCollectionLlmsUrl, getVersionStatus } from "@cloudflare/nimbus-docs";
 import AgentDirective from "@/components/agent-directive.astro";
+import Analytics from "@/components/analytics.astro";
 import { SearchDialog } from "@/components/ui/search";
 import NimbusHead from "@cloudflare/nimbus-docs/components/NimbusHead.astro";
 import type { BasePageProps } from "@cloudflare/nimbus-docs/types";
@@ -58,6 +59,7 @@ const llmsUrl = Astro.site
       collection={collection}
       entryId={entryId}
     />
+    <Analytics />
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
     <a

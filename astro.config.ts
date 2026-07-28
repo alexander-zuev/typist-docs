@@ -40,8 +40,6 @@ const nimbusConfig = defineNimbusConfig({
         ],
       },
     ],
-    indexDisplay: 'overview-leaf',
-    overviewLabel: true,
   },
 })
 
