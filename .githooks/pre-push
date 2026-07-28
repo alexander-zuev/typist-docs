@@ -3,3 +3,5 @@ set -e
 
 pnpm run check
 pnpm run build
+# Playwright serves dist/, so this has to follow the build. Same suite CI runs.
+pnpm run test
