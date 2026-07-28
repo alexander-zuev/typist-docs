@@ -17,6 +17,8 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
 </div>
 
 <script>
+  import posthog from "posthog-js";
+
   for (const button of document.querySelectorAll<HTMLButtonElement>('[data-setup-prompt]')) {
     button.addEventListener('click', async () => {
       const prompt = button.dataset.setupPrompt
@@ -27,6 +29,9 @@ const setupPrompt = 'Fetch https://docs.iamtypist.dev/mcp/connect.md and follow 
         await navigator.clipboard.writeText(prompt)
         button.dataset.copyState = 'success'
         label.textContent = 'Copied'
+        if (import.meta.env.PUBLIC_POSTHOG_KEY) {
+          posthog.capture('docs_code_copied', { page: location.pathname, kind: 'setup_prompt' })
+        }
       } catch {
         label.textContent = 'Copy failed'
       }

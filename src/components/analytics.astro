@@ -7,13 +7,25 @@
  * so Astro has to bundle it for the specifier to resolve in a browser.
  */
 const key = import.meta.env.PUBLIC_POSTHOG_KEY;
+const apiHost = import.meta.env.PUBLIC_POSTHOG_API_HOST;
+const uiHost = import.meta.env.PUBLIC_POSTHOG_UI_HOST;
+
+if (key && (!apiHost || !uiHost)) {
+  throw new Error(
+    "PUBLIC_POSTHOG_API_HOST and PUBLIC_POSTHOG_UI_HOST are required when analytics is enabled",
+  );
+}
 ---
 
 {
   key && (
     <script>
       import { initAnalytics } from "./analytics.client";
-      initAnalytics(import.meta.env.PUBLIC_POSTHOG_KEY);
+      initAnalytics({
+        key: import.meta.env.PUBLIC_POSTHOG_KEY,
+        apiHost: import.meta.env.PUBLIC_POSTHOG_API_HOST,
+        uiHost: import.meta.env.PUBLIC_POSTHOG_UI_HOST,
+      });
     </script>
   )
 }

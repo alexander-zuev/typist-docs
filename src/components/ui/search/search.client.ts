@@ -1,5 +1,6 @@
 import { mount } from '@cloudflare/nimbus-docs/client'
 import type { SearchProvider, SearchResult } from '@cloudflare/nimbus-docs/types'
+import posthog from 'posthog-js'
 
 import { provider } from './providers/pagefind'
 
@@ -60,7 +61,12 @@ export function initSearch(config: SearchConfig): SearchInstance {
     link.href = href
     link.className = className
     link.textContent = title
-    link.addEventListener('click', () => onNavigate?.())
+    link.addEventListener('click', () => {
+      if (import.meta.env.PUBLIC_POSTHOG_KEY) {
+        posthog.capture('docs_search_result_clicked', { href })
+      }
+      onNavigate?.()
+    })
     return link
   }
 
@@ -108,15 +114,6 @@ export function initSearch(config: SearchConfig): SearchInstance {
     return option
   }
 
-  /**
-   * Announces a completed search so analytics (or anything else) can observe
-   * it without reaching into this module. A zero count is the interesting
-   * case: it names a page the docs do not have.
-   */
-  function announceSearch(query: string, resultCount: number): void {
-    document.dispatchEvent(new CustomEvent('nb:search', { detail: { query, resultCount } }))
-  }
-
   async function ensureInitialized(): Promise<boolean> {
     if (initialized) return true
     try {
@@ -150,7 +147,9 @@ export function initSearch(config: SearchConfig): SearchInstance {
       if (results.length === 0) {
         emptyState.style.display = ''
         emptyState.textContent = 'No results found.'
-        announceSearch(query, 0)
+        if (import.meta.env.PUBLIC_POSTHOG_KEY) {
+          posthog.capture('docs_search_performed', { query, result_count: 0 })
+        }
         return
       }
 
@@ -158,7 +157,9 @@ export function initSearch(config: SearchConfig): SearchInstance {
       input.setAttribute('aria-expanded', 'true')
       for (const result of results) resultsContainer.appendChild(buildResult(result))
 
-      announceSearch(query, results.length)
+      if (import.meta.env.PUBLIC_POSTHOG_KEY) {
+        posthog.capture('docs_search_performed', { query, result_count: results.length })
+      }
     } catch {
       if (signal.aborted) return
       clearResults()
@@ -289,7 +290,12 @@ mount('[data-search-dialog]', (root) => {
   })
 
   dialog.__openSearchDialog = () => {
-    if (!dialog.open) dialog.showModal()
+    if (!dialog.open) {
+      dialog.showModal()
+      if (import.meta.env.PUBLIC_POSTHOG_KEY) {
+        posthog.capture('docs_search_opened', { page: location.pathname })
+      }
+    }
     void search.reset()
   }
 
