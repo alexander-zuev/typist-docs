@@ -1,0 +1,198 @@
+---
+/**
+ * THROWAWAY. Logo exploration for the developer platform mark: a grid of cells
+ * with no borders, filled or empty. Delete this file once a direction is
+ * chosen (and drop it from the sitemap filter in astro.config.ts).
+ *
+ * Every variant is the same primitive — a string grid rendered as one rect per
+ * filled cell — so the differences are grid size, density, gap, and which
+ * cells carry a second tone.
+ */
+import BaseLayout from "@/layouts/base-layout.astro";
+
+export const prerender = true;
+
+type Variant = {
+  name: string;
+  note: string;
+  grid: string[];
+  gap?: number;
+  /** Cells marked `o` render in this tone; `#` always uses the foreground. */
+  tone?: string;
+  /** Fill every empty cell with this tone instead of leaving it blank. */
+  field?: string;
+};
+
+// `#` filled, `o` second tone, `.` empty. All keep variant 02's gap language;
+// what changes is the letterform. A 5×7 cell is the classic terminal-font
+// proportion — taller than wide is what makes a grid read as type.
+const VARIANTS: Variant[] = [
+  {
+    name: "01 · 5×7 terminal",
+    note: "The baseline bitmap-font cell. Same T, correct proportion.",
+    grid: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
+    gap: 0.12,
+  },
+  {
+    name: "02 · 5×7 bracket serifs",
+    note: "Crossbar ends drop one cell, the bitmap version of a bracketed serif.",
+    grid: ["#####", "#.#.#", "..#..", "..#..", "..#..", "..#..", "..#.."],
+    gap: 0.12,
+  },
+  {
+    name: "03 · 5×7 slab foot",
+    note: "Foot at the baseline. Reads as a slab serif, sits more solidly.",
+    grid: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", ".###."],
+    gap: 0.12,
+  },
+  {
+    name: "04 · 5×7 full serif",
+    note: "Brackets and foot together. The most typographic of the 5-wide set.",
+    grid: ["#####", "#.#.#", "..#..", "..#..", "..#..", "..#..", ".###."],
+    gap: 0.12,
+  },
+  {
+    name: "05 · 6×8 grotesque",
+    note: "Two-cell stem and two-row crossbar. Heavier, closer to the app's T.",
+    grid: ["######", "######", "..##..", "..##..", "..##..", "..##..", "..##..", "..##.."],
+    gap: 0.1,
+  },
+  {
+    name: "06 · 6×8 slab",
+    note: "Grotesque weight plus a foot. Strongest presence at 20px.",
+    grid: ["######", "######", "..##..", "..##..", "..##..", "..##..", "..##..", ".####."],
+    gap: 0.1,
+  },
+  {
+    name: "07 · 7×9 high-res",
+    note: "More cells, finer letterform. Loses the pixel read below ~28px.",
+    grid: [
+      "#######",
+      "#######",
+      "...#...",
+      "...#...",
+      "...#...",
+      "...#...",
+      "...#...",
+      "...#...",
+      "..###..",
+    ],
+    gap: 0.08,
+  },
+  {
+    name: "08 · stencil",
+    note: "Crossbar split at the stem. Machined, plotter-like.",
+    grid: ["##.##", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
+    gap: 0.12,
+  },
+  {
+    name: "09 · condensed 4×7",
+    note: "Narrow cell, two-wide stem. Tight enough to sit inline with text.",
+    grid: ["####", ".##.", ".##.", ".##.", ".##.", ".##.", ".##."],
+    gap: 0.12,
+  },
+  {
+    name: "10 · serif + caret",
+    note: "Full serif with a terminal caret in the accent tone.",
+    grid: ["#####", "#.#.#", "..#..", "..#..", "..#..", "..#..", ".###o"],
+    gap: 0.12,
+    tone: "var(--nb-info)",
+  },
+];
+
+function cells(variant: Variant) {
+  const out: { x: number; y: number; tone: string }[] = [];
+  variant.grid.forEach((row, y) => {
+    [...row].forEach((char, x) => {
+      if (char === "#") out.push({ x, y, tone: "currentColor" });
+      else if (char === "o" && variant.tone) out.push({ x, y, tone: variant.tone });
+      else if (variant.field) out.push({ x, y, tone: variant.field });
+    });
+  });
+  return out;
+}
+
+const SIZES = [20, 28, 36, 64];
+---
+
+<BaseLayout title="Logo lab" description="Throwaway logo exploration" noindex>
+  <main id="main-content" class="mx-auto w-full max-w-5xl px-6 py-12">
+    <h1 class="text-2xl font-semibold tracking-tight text-foreground">
+      Developer platform mark
+    </h1>
+    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+      Grid of cells, no borders. Each row shows the mark at 20, 28, 36, and 64px,
+      then in context beside the wordmark. 36px is the header size.
+    </p>
+
+    <div class="mt-10 flex flex-col gap-10">
+      {
+        VARIANTS.map((variant) => {
+          const width = variant.grid[0].length;
+          const height = variant.grid.length;
+          const gap = variant.gap ?? 0;
+          return (
+            <section class="border-t border-border pt-6">
+              <div class="flex flex-wrap items-baseline gap-x-3">
+                <h2 class="text-sm font-semibold text-foreground">{variant.name}</h2>
+                <p class="text-xs text-muted-foreground">{variant.note}</p>
+              </div>
+
+              <div class="mt-5 flex flex-wrap items-end gap-8">
+                {SIZES.map((size) => (
+                  <div class="flex flex-col items-center gap-2">
+                    <svg
+                      viewBox={`0 0 ${width} ${height}`}
+                      width={size}
+                      height={(size * height) / width}
+                      fill="currentColor"
+                      shape-rendering="crispEdges"
+                      aria-hidden="true"
+                      class="text-foreground"
+                    >
+                      {cells(variant).map(({ x, y, tone }) => (
+                        <rect
+                          x={x + gap / 2}
+                          y={y + gap / 2}
+                          width={1 - gap}
+                          height={1 - gap}
+                          fill={tone}
+                        />
+                      ))}
+                    </svg>
+                    <span class="text-[0.625rem] text-muted-foreground">{size}px</span>
+                  </div>
+                ))}
+
+                <div class="flex items-center gap-3 border-l border-border pl-8">
+                  <svg
+                    viewBox={`0 0 ${width} ${height}`}
+                    width={36}
+                    height={(36 * height) / width}
+                    fill="currentColor"
+                    shape-rendering="crispEdges"
+                    aria-hidden="true"
+                    class="text-foreground"
+                  >
+                    {cells(variant).map(({ x, y, tone }) => (
+                      <rect
+                        x={x + gap / 2}
+                        y={y + gap / 2}
+                        width={1 - gap}
+                        height={1 - gap}
+                        fill={tone}
+                      />
+                    ))}
+                  </svg>
+                  <span class="text-lg font-semibold tracking-[-0.025em] text-foreground">
+                    Typist Docs
+                  </span>
+                </div>
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
+  </main>
+</BaseLayout>

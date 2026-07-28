@@ -1,0 +1,61 @@
+---
+/**
+ * UNUSED. Candidate developer-platform mark, kept for the v2 design direction.
+ * The header still renders the parent brand's logo (`@/assets/logo.svg`) —
+ * this one reads too far from it to ship on its own. See `/logo-lab` for the
+ * alternatives it was chosen from.
+ *
+ * A T on a 5x7 bitmap-font cell, with bracket serifs and a foot. Vector rather than raster, so it stays crisp at any size and
+ * takes its color from `currentColor` instead of shipping an asset per theme.
+ *
+ * No container. The app's mark is a keycap; this one is deliberately bare, and
+ * a border or circle would eat ~30% of the box at 20px, where the single-cell
+ * serifs are already the first detail to mud together.
+ *
+ * `field` fills every empty cell instead of leaving it transparent, for the
+ * favicon and OG card where the background is not ours to control.
+ */
+interface Props {
+  class?: string;
+  /** Fill empty cells with this color, drawing the mark as a knocked-out square. */
+  field?: string;
+}
+
+const { class: className, field } = Astro.props;
+
+// `#` filled, `.` empty. Rows 0-1 are the crossbar and its bracket serifs;
+// row 6 is the foot.
+const GRID = ["#####", "#.#.#", "..#..", "..#..", "..#..", "..#..", ".###."];
+
+const GAP = 0.12;
+const WIDTH = GRID[0].length;
+const HEIGHT = GRID.length;
+
+const cells = GRID.flatMap((row, y) =>
+  [...row].flatMap((char, x) => {
+    if (char === "#") return [{ x, y, filled: true }];
+    return field ? [{ x, y, filled: false }] : [];
+  }),
+);
+---
+
+<svg
+  viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+  role="img"
+  aria-hidden="true"
+  fill="currentColor"
+  shape-rendering="crispEdges"
+  class={className}
+>
+  {
+    cells.map(({ x, y, filled }) => (
+      <rect
+        x={x + GAP / 2}
+        y={y + GAP / 2}
+        width={1 - GAP}
+        height={1 - GAP}
+        fill={filled ? "currentColor" : field}
+      />
+    ))
+  }
+</svg>

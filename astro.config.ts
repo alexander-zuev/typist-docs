@@ -7,13 +7,16 @@ import { scrollableTable } from './src/lib/scrollable-table'
 
 const nimbusConfig = defineNimbusConfig({
   site: 'https://docs.iamtypist.dev',
-  title: 'Typist Platform',
+  // Names the site, not the product: it drives the header wordmark, the page
+  // title suffix, and og:site_name. "Typist Developer Platform" is the
+  // positioning line and lives on the landing page instead.
+  title: 'Typist Docs',
   description: 'Connect AI agents and developer tools to Typist.',
   locale: 'en',
-  homeLabel: 'Typist Platform',
+  homeLabel: 'Docs',
   github: 'https://github.com/alexander-zuev/typist-docs',
   editPattern: 'https://github.com/alexander-zuev/typist-docs/edit/main/{path}',
-  socialImageAlt: 'Typist Platform documentation',
+  socialImageAlt: 'Typist developer platform documentation',
   sidebar: {
     items: [
       // One group per product. MCP owns its own tools and help, so a second
@@ -74,7 +77,7 @@ export default defineConfig({
       // fixture at /kitchen-sink has to be dropped explicitly. Returning
       // undefined omits an entry.
       sitemap: {
-        serialize: (item) => (item.url.includes('/kitchen-sink') ? undefined : item),
+        serialize: (item) => (/\/(kitchen-sink|logo-lab)/.test(item.url) ? undefined : item),
       },
     }),
   ],
