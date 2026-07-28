@@ -8,7 +8,7 @@
     "prepare": "git config core.hooksPath .githooks",
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro check && nimbus-docs lint",
+    "check": "astro check && tsc -p worker && nimbus-docs lint",
     "test": "playwright test",
     "lint": "oxlint . --quiet",
     "lint:fix": "oxlint . --fix --quiet",

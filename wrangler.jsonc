@@ -2,9 +2,19 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "typist-docs",
   "compatibility_date": "2026-07-25",
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
+    "binding": "ASSETS",
+    // The Worker only reports traffic; it must see every request to do so.
+    // Which responses are worth reporting is decided by content type in code,
+    // so new asset directories never need a config change here.
+    "run_worker_first": true,
+  },
+  "vars": {
+    // Public project token, already shipped in the browser bundle.
+    "POSTHOG_KEY": "phc_Kj4y2ZKa3ImONj4RsIuWhzxEvwDGOX2G7xP7Y2oFKX1",
   },
   "routes": [
     {
