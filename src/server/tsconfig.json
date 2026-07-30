@@ -1,0 +1,15 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    // Workers runtime types replace the DOM lib, so this directory is typed in
+    // isolation and excluded from the root tsconfig. Mixing the two would break
+    // every browser-side client script under src/.
+    "lib": ["esnext"],
+    // No ambient @types at all: anything auto-included from node_modules could
+    // reintroduce the DOM. The Worker's own types arrive through `include` below.
+    "types": [],
+    "moduleResolution": "bundler",
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "../../worker-configuration.d.ts"]
+}

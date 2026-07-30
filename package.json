@@ -8,7 +8,7 @@
     "prepare": "git config core.hooksPath .githooks",
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro check && tsc -p worker && nimbus-docs lint",
+    "check": "astro check && tsc -p src/server && nimbus-docs lint",
     "test": "playwright test",
     "lint": "oxlint . --quiet",
     "lint:fix": "oxlint . --fix --quiet",
@@ -31,6 +31,7 @@
     "canvaskit-wasm": "^0.41.1",
     "clsx": "^2.1.1",
     "posthog-js": "^1.407.2",
+    "posthog-node": "^5.46.1",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {

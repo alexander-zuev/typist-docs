@@ -7,7 +7,7 @@
     "types": ["astro/client"]
   },
   "include": [".astro/types.d.ts", "**/*"],
-  // The Worker is typed separately by worker/tsconfig.json: its runtime types
+  // The Worker is typed separately by src/server/tsconfig.json: its runtime types
   // replace the DOM lib, which would break every browser-side client script.
-  "exclude": ["dist", "worker", "worker-configuration.d.ts"]
+  "exclude": ["dist", "src/server", "worker-configuration.d.ts"]
 }
